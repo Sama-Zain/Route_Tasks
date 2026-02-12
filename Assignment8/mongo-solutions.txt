@@ -1,0 +1,391 @@
+//1
+test> use Assignment8
+switched to db Assignment8
+Assignment8> db.createCollection("books", {
+...   validator: {
+...     $jsonSchema: {
+...       bsonType: "object",
+...       required: ["title"],
+...       properties: {
+...         title: {
+...           bsonType: "string",
+...           minLength: 1,
+...           description: "title must be a non-empty string"
+...         }
+...       }
+...     }
+...   }
+... });
+{ ok: 1 }
+
+//2
+Assignment8> db.authors.insertOne({ name: "Author Name", nationality: "Egyptian" });
+{
+  acknowledged: true,
+  insertedId: ObjectId('698bbfbf7dc89030d61e2621')
+}
+
+//3
+Assignment8> db.createCollection("logs", { capped: true, size: 1024 * 1024, max: 10 });
+{ ok: 1 }
+
+//4
+Assignment8> db.books.createIndex({ title: 1 });
+title_1
+
+//5
+Assignment8> db.books.insertOne({
+    "title":"Book1",
+    "author":"Ali",
+    "year":1937,
+    "genres":["Fantasy","Adventure"]
+});
+{
+  acknowledged: true,
+  insertedId: ObjectId('698bbfbf7dc89030d61e2622')
+}
+
+//6
+Assignment8> db.books.insertMany([
+...     {
+...       "title":"Book3",
+...       "author":"Ali",
+...       "year":1937,
+...       "genres":["Fantasy","Adventure"]
+...     },
+...     {
+...       "title":"Book4",
+...       "author":"Ali",
+...       "year":1937,
+...       "genres":["Fantasy","Adventure"]
+...     }
+...   ]);
+...
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('698bd1651416d83d821e2623'),
+    '1': ObjectId('698bd1651416d83d821e2624')
+  }
+}
+
+//7
+Assignment8> db.logs.insertOne({ book_id:'698bce57ae368d478e4c4b0f', action: "borrowed" });
+{
+  acknowledged: true,
+  insertedId: ObjectId('698bd3691416d83d821e2625')
+}
+
+//8
+Assignment8> db.books.updateOne({ title: "Future" }, { $set: { year: 2022 } });
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+//9
+ssignment8> db.books.findOne({ title: "Brave New World" });
+{
+  _id: ObjectId('698bce57ae368d478e4c4b10'),
+  title: 'Brave New World',
+  author: 'Aldous Huxley',
+  year: 2006,
+  genres: [ 'Dystopian', 'Science Fiction' ]
+}
+
+//10
+Assignment8> db.books.find({ year: { $gte: 1990, $lte: 2010 } });
+[
+  {
+    _id: ObjectId('698bce57ae368d478e4c4b10'),
+    title: 'Brave New World',
+    author: 'Aldous Huxley',
+    year: 2006,
+    genres: [ 'Dystopian', 'Science Fiction' ]
+  }
+]
+
+//11
+Assignment8> db.books.find({ genres: "Science Fiction" });
+[
+  {
+    _id: ObjectId('698bce57ae368d478e4c4b0e'),
+    title: 'Future',
+    author: 'George Orwell',
+    year: 2022,
+    genres: [ 'Science Fiction' ]
+  },
+  {
+    _id: ObjectId('698bce57ae368d478e4c4b10'),
+    title: 'Brave New World',
+    author: 'Aldous Huxley',
+    year: 2006,
+    genres: [ 'Dystopian', 'Science Fiction' ]
+  }
+]
+
+//12
+Assignment8> db.books.find().sort({ year: -1 }).skip(2).limit(3);
+[
+  {
+    _id: ObjectId('698bd1651416d83d821e2623'),
+    title: 'Book3',
+    author: 'George Orwell',
+    year: 1980,
+    genres: [ 'Fantasy', 'Adventure' ]
+  },
+  {
+    _id: ObjectId('698bd1651416d83d821e2624'),
+    title: 'Book4',
+    author: 'Aldous Huxley',
+    year: 1970,
+    genres: [ 'Fantasy', 'Adventure' ]
+  },
+  {
+    _id: ObjectId('698bce57ae368d478e4c4b0f'),
+    title: 'To Kill a Mockingbird',
+    author: 'Harper Lee',
+    year: 1960,
+    genres: [ 'Claddic', 'Fitction' ]
+  }
+]
+
+//13
+Assignment8> db.books.find({ year: { $type: "int" } });
+[
+  {
+    _id: ObjectId('698bcb19689f68ae030864df'),
+    title: 'Book1',
+    author: 'Ali',
+    year: 1937,
+    genres: [ 'Fantasy', 'Adventure' ]
+  },
+  {
+    _id: ObjectId('698bce57ae368d478e4c4b0e'),
+    title: 'Future',
+    author: 'George Orwell',
+    year: 2022,
+    genres: [ 'Science Fiction' ]
+  },
+  {
+    _id: ObjectId('698bce57ae368d478e4c4b0f'),
+    title: 'To Kill a Mockingbird',
+    author: 'Harper Lee',
+    year: 1960,
+    genres: [ 'Claddic', 'Fitction' ]
+  },
+  {
+    _id: ObjectId('698bce57ae368d478e4c4b10'),
+    title: 'Brave New World',
+    author: 'Aldous Huxley',
+    year: 2006,
+    genres: [ 'Dystopian', 'Science Fiction' ]
+  },
+  {
+    _id: ObjectId('698bd1651416d83d821e2623'),
+    title: 'Book3',
+    author: 'George Orwell',
+    year: 1980,
+    genres: [ 'Fantasy', 'Adventure' ]
+  },
+  {
+    _id: ObjectId('698bd1651416d83d821e2624'),
+    title: 'Book4',
+    author: 'Aldous Huxley',
+    year: 1970,
+    genres: [ 'Fantasy', 'Adventure' ]
+  }
+]
+
+//14
+Assignment8> db.books.find({ genres: { $nin: ["Horror", "Science Fiction"] } });
+[
+  {
+    _id: ObjectId('698bcb19689f68ae030864df'),
+    title: 'Book1',
+    author: 'Ali',
+    year: 1937,
+    genres: [ 'Fantasy', 'Adventure' ]
+  },
+  {
+    _id: ObjectId('698bce57ae368d478e4c4b0f'),
+    title: 'To Kill a Mockingbird',
+    author: 'Harper Lee',
+    year: 1960,
+    genres: [ 'Claddic', 'Fitction' ]
+  },
+  {
+    _id: ObjectId('698bd1651416d83d821e2623'),
+    title: 'Book3',
+    author: 'George Orwell',
+    year: 1980,
+    genres: [ 'Fantasy', 'Adventure' ]
+  },
+  {
+    _id: ObjectId('698bd1651416d83d821e2624'),
+    title: 'Book4',
+    author: 'Aldous Huxley',
+    year: 1970,
+    genres: [ 'Fantasy', 'Adventure' ]
+  }
+]
+
+//15
+Assignment8> db.books.deleteMany({ year: { $lt: 2000 } });
+{
+  acknowledged: true,
+  deletedCount: 4
+}
+
+//16
+
+Assignment8> db.books.aggregate([
+...   { $match: { year: { $gt: 2000 } } },
+...   { $sort: { year: -1 } }
+... ]);
+[
+  {
+    _id: ObjectId('698bce57ae368d478e4c4b0e'),
+    title: 'Future',
+    author: 'George Orwell',
+    year: 2022,
+    genres: [ 'Science Fiction' ]
+  },
+  {
+    _id: ObjectId('698bce57ae368d478e4c4b10'),
+    title: 'Brave New World',
+    author: 'Aldous Huxley',
+    year: 2006,
+    genres: [ 'Dystopian', 'Science Fiction' ]
+  }
+]
+
+//17
+Assignment8> db.books.aggregate([
+...   { $match: { year: { $gt: 2000 } } },
+...   { $project: { _id: 0, title: 1, author: 1, year: 1 } }
+... ]);
+[
+  { title: 'Future', author: 'George Orwell', year: 2022 },
+  { title: 'Brave New World', author: 'Aldous Huxley', year: 2006 }
+]
+
+//18
+Assignment8> db.books.aggregate([
+...   { $unwind: "$genres" }
+... ]);
+[
+  {
+    _id: ObjectId('698bce57ae368d478e4c4b0e'),
+    title: 'Future',
+    author: 'George Orwell',
+    year: 2022,
+    genres: 'Science Fiction'
+  },
+  {
+    _id: ObjectId('698bce57ae368d478e4c4b10'),
+    title: 'Brave New World',
+    author: 'Aldous Huxley',
+    year: 2006,
+    genres: 'Dystopian'
+  },
+  {
+    _id: ObjectId('698bce57ae368d478e4c4b10'),
+    title: 'Brave New World',
+    author: 'Aldous Huxley',
+    year: 2006,
+    genres: 'Science Fiction'
+  },
+  {
+    _id: ObjectId('698d3e447dcc051502547817'),
+    title: 'The Great Gatsby',
+    author: 'F. Scott Fitzgerald',
+    year: 1925,
+    genres: 'Classic'
+  },
+  {
+    _id: ObjectId('698d3e447dcc051502547817'),
+    title: 'The Great Gatsby',
+    author: 'F. Scott Fitzgerald',
+    year: 1925,
+    genres: 'Fiction'
+  },
+  {
+    _id: ObjectId('698d3e447dcc051502547818'),
+    title: 'Moby Dick',
+    author: 'Herman Melville',
+    year: 1851,
+    genres: 'Adventure'
+  },
+  {
+    _id: ObjectId('698d3e447dcc051502547818'),
+    title: 'Moby Dick',
+    author: 'Herman Melville',
+    year: 1851,
+    genres: 'Classic'
+  },
+  {
+    _id: ObjectId('698d3e447dcc051502547819'),
+    title: 'War and Peace',
+    author: 'Leo Tolstoy',
+    year: 1869,
+    genres: 'Historical Fiction'
+  },
+  {
+    _id: ObjectId('698d3e447dcc051502547819'),
+    title: 'War and Peace',
+    author: 'Leo Tolstoy',
+    year: 1869,
+    genres: 'Philosophy'
+  }
+]
+
+//19
+Assignment8> db.logs.aggregate([
+...   {
+...     $lookup: {
+...       from: "books",
+...       let: { log_book_id: "$book_id" },
+...       pipeline: [
+...         {
+...           $match: {
+...             $expr: {
+...               $eq: [{ $toString: "$_id" }, "$$log_book_id"]
+...             }
+...           }
+...         },
+...         {
+...           $project: {
+...             _id: 0,
+...             title: 1,
+...             author: 1,
+...             year: 1
+...           }
+...         }
+...       ],
+...       as: "book_details"
+...     }
+...   },
+...   {
+...     $project: {
+...       _id: 0,
+...       action: 1,
+...       book_details: 1
+...     }
+...   }
+... ]);
+[
+  {
+    action: 'borrowed',
+    book_details: [ { title: 'Future', author: 'George Orwell', year: 2022 } ]
+  },
+  {
+    action: 'returned',
+    book_details: [
+      { title: 'Brave New World', author: 'Aldous Huxley', year: 2006 }
+    ]
+  }
+]

@@ -1,0 +1,1 @@
+export {default as logRouter} from "./log.controller.js";

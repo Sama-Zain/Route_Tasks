@@ -1,5 +1,5 @@
-import bcrypt from "bcryptjs";
-import CryptoJS from "crypto-js";
+import bcrypt from "bcrypt";
+import CryptoJS from "crypto";
 import jwt from "jsonwebtoken";
 import User from "../../DB/Models/user.model.js";
 
@@ -119,4 +119,5 @@ export const getUser = async (req, res) => {
         console.log(error);
         return res.status(500).json({ message: "Error getting user" });
     }
+
 }

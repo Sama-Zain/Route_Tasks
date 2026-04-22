@@ -1,0 +1,62 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="dFQfj_VWHJFiQ6R91hhQ">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="user" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=1;resizeParent=1;resizeParentMax=0;resizeLast=1;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="User&lt;div&gt;&lt;br&gt;+ id: number&lt;br&gt;+ name: string&lt;br&gt;+ email: string&lt;br&gt;- password: string&lt;br&gt;+ phone: string&lt;br&gt;- age: number&lt;br&gt;+ notebooks: NoteBook[]&lt;br&gt;--&lt;br&gt;+ getAge(): number&lt;br&gt;+ getPassword(): string&lt;br&gt;+ set age_user(value: number)&lt;br&gt;+ addNotebook(notebook: NoteBook): void&lt;br&gt;+ displayInfo(): void&lt;/div&gt;" vertex="1">
+          <mxGeometry height="240" width="240" x="340" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="admin" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=1;resizeParent=1;resizeParentMax=0;resizeLast=1;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#b1ddf0;strokeColor=#10739e;" value="Admin&#xa;--&#xa;+ deleteNote(notebook: NoteBook, noteId: number): void&#xa;+ createNote(notebook: NoteBook, title: string, content: string): void" vertex="1">
+          <mxGeometry height="120" width="280" x="690" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="note" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=1;resizeParent=1;resizeParentMax=0;resizeLast=1;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="Note&lt;div&gt;&lt;br&gt;+ id: number&lt;br&gt;+ title: string&lt;br&gt;+ content: string&lt;br&gt;+ author: User&lt;br&gt;--&lt;br&gt;+ preview(): string&lt;/div&gt;" vertex="1">
+          <mxGeometry height="140" width="220" x="30" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="notebook" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=20;horizontalStack=1;resizeParent=1;resizeParentMax=0;resizeLast=1;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#97d077;strokeColor=#5a8a3b;" value="NoteBook&lt;div&gt;&lt;br&gt;+ id: number&lt;br&gt;+ name: string&lt;br&gt;- notes: Note[]&lt;br&gt;--&lt;br&gt;+ addNote(noteId, title, content, userId): void&lt;br&gt;+ removeNote(noteId): void&lt;/div&gt;" vertex="1">
+          <mxGeometry height="150" width="250" x="400" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="storage" parent="1" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=1;resizeParent=1;resizeParentMax=0;resizeLast=1;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="Storage&lt;div&gt;&lt;br&gt;- items: T [ ]&lt;br&gt;--&lt;br&gt;+ addItem(item: T): void&lt;br&gt;+ removeItem(item: T): void&lt;br&gt;+ getItems(): T [ ]&lt;/div&gt;" vertex="1">
+          <mxGeometry height="110" width="200" x="600" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="inheritance" edge="1" parent="1" source="admin" style="endArrow=block;endSize=16;endFill=0;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;strokeColor=#b85450;strokeWidth=2;" target="user" value="Inheritance">
+          <mxGeometry relative="1" width="160" as="geometry" />
+        </mxCell>
+        <mxCell id="aggregation" edge="1" parent="1" style="endArrow=diamondThin;endSize=24;endFill=0;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#0059b3;strokeWidth=2;" target="notebook" value="Aggregation">
+          <mxGeometry relative="1" width="160" as="geometry">
+            <mxPoint x="490" y="280" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="composition" edge="1" parent="1" source="notebook" style="endArrow=diamondThin;endSize=24;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;strokeColor=#2d7a15;strokeWidth=2;" value="Composition">
+          <mxGeometry relative="1" width="160" as="geometry">
+            <mxPoint x="250" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="association" edge="1" parent="1" source="note" style="endArrow=none;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#666666;" target="user" value="Association (author)">
+          <mxGeometry relative="1" width="160" as="geometry" />
+        </mxCell>
+        <mxCell id="wY8OLB4ld_limgabH1xb-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="1" vertex="1">
+          <mxGeometry height="30" width="60" x="470" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="wY8OLB4ld_limgabH1xb-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="*" vertex="1">
+          <mxGeometry height="30" width="60" x="470" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="wY8OLB4ld_limgabH1xb-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="*" vertex="1">
+          <mxGeometry height="30" width="60" x="240" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="wY8OLB4ld_limgabH1xb-11" edge="1" parent="1" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="storage" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="700" y="250" as="sourcePoint" />
+            <mxPoint x="540" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wY8OLB4ld_limgabH1xb-12" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&amp;lt;&amp;lt;T&amp;gt;&amp;gt;&lt;div&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="670" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="wY8OLB4ld_limgabH1xb-16" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="1" vertex="1">
+          <mxGeometry height="30" width="60" x="360" y="450" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
